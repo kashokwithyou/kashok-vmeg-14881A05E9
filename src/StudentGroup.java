@@ -15,6 +15,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public Student[] getStudents() {
+		if(students==null){throw new IllegalArgumentException("NULL");}
          return this.students;
 	}
 
@@ -145,6 +146,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public Student[] getNearBirthDate(Date date, int days) {
+		if(date==null){throw new IllegalArgumentException("Error");}
            ArrayList<Student> temp = new ArrayList<>();
 		   Calendar cal = getCalendar(date);
 		   cal.add(Calendar.DATE, days);
@@ -187,6 +189,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public Student getNextStudent(Student student) {
+		if(students==null){throw new IllegalArgumentException("Error");}
            this.bubbleSort();
 		   int i;
 		   for(i = 0; i < this.students.length; i++)
