@@ -181,6 +181,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 
 	public Student[] getStudentsByAge(int age) {
+		if(age==0){throw new IllegalArgumentException("NULL");}
           ArrayList<Student> temp = new ArrayList<>();
 		  for(int i = 0; i < this.students.length; i++)
 		  {
@@ -214,6 +215,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public void add(Student student, int index) {
+		if(student==null){throw new IllegalArgumentException("NULL");}
          Student[] temp = new Student[this.students.length+1];
 		 for(int i = 0; i < index; i++)
 			 temp[i] = this.students[i];
