@@ -1,247 +1,225 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
-
-/**
- * A fix-sized array of students
- * array length should always be equal to the number of stored elements
- * after the element was removed the size of the array should be equal to the number of stored elements
- * after the element was added the size of the array should be equal to the number of stored elements
- * null elements are not allowed to be stored in the array
- * 
- * You may add new methods, fields to this class, but DO NOT RENAME any given class, interface or method
- * DO NOT PUT any classes into packages
- *
- */
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 public class StudentGroup implements StudentArrayOperation {
 
 	private Student[] students;
 	
-	/**
-	 * DO NOT remove or change this constructor, it will be used during task check
-	 * @param length
-	 */
 	public StudentGroup(int length) {
-		this.students = new Student[length];
+        students = new Student[0];
 	}
 
-	@Override
+	
 	public Student[] getStudents() {
-		// Add your implementation here
-                if(students.length>0) {
-                    return students;
-                } else {
-                    return null;
-                }
+         return this.students;
 	}
 
-	@Override
+	
 	public void setStudents(Student[] students) {
-		// Add your implementation here
-                for(int i=0;i<students.length;i++) {
-                    this.students[i] = students[i];
-                }
-                
+         this.students = students;
 	}
 
-	@Override
+	
 	public Student getStudent(int index) {
-		// Add your implementation here
-                if(index>students.length) {
-                    return null;
-                } else {
-                    return students[index];
-                }
+          return students[index];
 	}
 
-	@Override
+	
 	public void setStudent(Student student, int index) {
-		// Add your implementation here
-                 if(index>students.length) {
-                    
-                } else {
-                    students[index] = student;
-                 }
+           this.getStudents()[index] = student;
 	}
 
-	@Override
 	public void addFirst(Student student) {
-		// Add your implementation here
-                for(int i=1;i<students.length;i++) {
-                    students[i] = students[i+1];
-                }
-                students[0] = student;
+         Student[] temp = new Student[this.students.length+1];
+		 temp[0] = student;
+		 for(int i = 1; i < temp.length; i++)
+			 temp[i] = this.students[i-1];
+		 this.students = temp;
 	}
 
-	@Override
+	
 	public void addLast(Student student) {
-		// Add your implementation here
-                students[students.length+1] = student;
+         Student[] temp = new Student[this.getStudents().length+1];
+		 for(int i = 0; i < this.students.length; i++)
+			 temp[i] = this.students[i];
+		 temp[temp.length - 1] = student;
+		 this.students = temp;
 	}
 
-	@Override
-	public void add(Student student, int index) {
-		// Add your implementation here
-                for(int i=index;i<students.length;i++) {
-                    students[i] = students[i+1];
-                }
-                students[index] = student;
-	}
-
-	@Override
+	
 	public void remove(int index) {
-		// Add your implementation here
-                for(int i=index;i<students.length;i++) {
-                    students[i] = students[i+1];
-                }
+         Student[] temp = new Student[this.students.length-1]; 
+		 int c = 0;
+		 for(int i = 0; i < this.students.length; i++)
+			 if(i != index) temp[c++] = this.students[i];
+		 this.students = temp;
 	}
 
-	@Override
+	
 	public void remove(Student student) {
-		// Add your implementation here
-                int i=0;
-                for(i=0;students[i] != student;i++) {
-                
-                }
-                for(int j=i;j<students.length;j++) {
-                    students[j] = students[j+1];
-                }
+         Student[] temp = new Student[this.students.length-1]; 
+		 int c = 0;
+		 for(int i = 0; i < this.students.length; i++)
+			 if(this.students[i] != student) temp[c++] = this.students[i];
+		 this.students = temp;
 	}
 
-	@Override
+	
 	public void removeFromIndex(int index) {
-		// Add your implementation here
-                for(int i=index;i<students.length;i++) {
-                    students[i] = null;
-                }
+         Student[] temp = new Student[index]; 
+		 int c = 0;
+		 for(int i = 0; i < index; i++)
+			 temp[i] = this.students[i];
+		 this.students = temp; 
 	}
 
-	@Override
+	
 	public void removeFromElement(Student student) {
-		// Add your implementation here
-		int i=0;
-		 Student[] temp=new Student[100];
-		for(Student s:students)
-		{
-			if(s.equals(student))
-			{
-				break;
-			}
-			temp[i++]=s;
-		     
-		}
-		students=temp;
-		
-	
-               
+           int ind = getStudentIndex(student);
+		   ArrayList<Student> temp = new ArrayList<>();
+		   for(int i = 0; i < ind; i++)
+			   temp.add(this.students[i]);
+		   this.students = temp.toArray(new Student[temp.size()]);
 	}
 
-	@Override
+	
 	public void removeToIndex(int index) {
-		// Add your implementation here
-                for(int i=0;i<students.length;i++) {
-                    if(i+index > students.length){
-                        break;
-                    }
-                        students[i] = students[i+index];
-                }
+         Student[] temp = new Student[this.students.length-index]; 
+		 int c = 0;
+		 for(int i = index; i < this.students.length; i++)
+			 temp[i-index] = this.students[i];
+		 this.students = temp;
 	}
 
-	@Override
-	public void removeToElement(Student student) {
-		// Add your implementation here
-		int i;
-		Student[] temp=new Student[100];
-		for( i=0;i<students.length;i++)
-		{
-			if(students[i]==student)
-			{
-				break;
-			}
-		}
-		for(;i<students.length;i++)
-		{
-			temp[i]=students[i];
-	    }
-                
-	}
-
-	@Override
-	public void bubbleSort() {
-		// Add your implementation here
-		int i;
-		Student[] temp=new Student[100];
-		for(i=0;i<students.length;i++)
-		{
-			/*if(students[i] > students[i+1])
-			{
-				temp[i]=students[i];
-				students[i]=students[i+1];
-				students[i+1]=temp[i];
-			}*/
-		}
-               
-                
-	}
-
-	@Override
-	public Student[] getByBirthDate(Date date) {
 	
-		int i;
-		Student[] temp=new Student[100];
-		for(i=0;i<students.length;i++)
-		{
-			if(getStudent(i).getBirthDate().equals(date))
-            {
-                temp[i]=students[i];
-		}	}			
-		return temp;
-		
+	public void removeToElement(Student student) {
+           int ind = getStudentIndex(student);
+		   ArrayList<Student> temp = new ArrayList<>();
+		   for(int i = ind; i < this.students.length; i++)
+			   temp.add(this.students[i]);
+		   this.students = temp.toArray(new Student[temp.size()]);
 	}
 
-	@Override
+	
+	public void bubbleSort() {
+          for(int i = 0; i < this.students.length; i++)
+		  {
+			  
+	          for(int j = 0; j < this.students.length-i-1; j++)
+			  {
+                   if(this.students[j].getId() > this.students[j+1].getId())
+				   {
+					   Student temp = this.students[j];
+					   this.students[j] = this.students[j+1];
+					   this.students[j+1] = temp;
+				   }
+			  }	   
+		  }
+	}
+
+
+	public Student[] getByBirthDate(Date date) {
+           ArrayList<Student> temp = new ArrayList<>();
+		   for(Student s : this.students)
+		   {
+		       if(s.getBirthDate().compareTo(date) == 0)
+				   temp.add(s);
+		   }
+		   return  temp.toArray(new Student[temp.size()]);
+	}
+
+	
 	public Student[] getBetweenBirthDates(Date firstDate, Date lastDate) {
-		// Add your implementation here
-		int i;
-		Student[] temp=new Student[100];
-		for(i=0;i<students.length;i++)
-		{
-			if(getStudent(i).getBirthDate().after(firstDate)&&getStudent(i).getBirthDate().before(lastDate))
-            {
-                temp[i]=students[i];
-		}	}			
-		return temp;
-            
+         ArrayList<Student> temp = new ArrayList<>();
+		   for(Student s : this.students)
+		   {
+		       if(s.getBirthDate().after(firstDate) && s.getBirthDate().before(lastDate))
+				   temp.add(s);
+		   }
+		   return  temp.toArray(new Student[temp.size()]); 
 	}
 
-	@Override
+	
 	public Student[] getNearBirthDate(Date date, int days) {
-		// Add your implementation here
-		
-		return null;
+           ArrayList<Student> temp = new ArrayList<>();
+		   Calendar cal = getCalendar(date);
+		   cal.add(Calendar.DATE, days);
+           date = cal.getTime();
+		   for(Student s : this.students)
+		   {
+		       if(s.getBirthDate().before(date))
+				   temp.add(s);
+		   }
+		   return  temp.toArray(new Student[temp.size()]); 
 	}
 
-	@Override
+	
 	public int getCurrentAgeByDate(int indexOfStudent) {
-		// Add your implementation here
-		return 0;
+		   Date now = new Date();
+           return this.students[indexOfStudent].getBirthDate().getYear() - now.getYear();
 	}
 
-	@Override
+
 	public Student[] getStudentsByAge(int age) {
-		// Add your implementation here
-               
-		return null;
+          ArrayList<Student> temp = new ArrayList<>();
+		  for(int i = 0; i < this.students.length; i++)
+		  {
+		      if(getCurrentAgeByDate(i) == age)
+				  temp.add(this.students[i]);
+		  }
+          return  temp.toArray(new Student[temp.size()]);
 	}
 
-	@Override
+	
 	public Student[] getStudentsWithMaxAvgMark() {
-		// Add your implementation here
-                
-		return null;
+          double maxavg = 0;
+		  for(Student s : this.students)
+			  if(s.getAvgMark() > maxavg) maxavg = s.getAvgMark();
+		  ArrayList<Student> temp = new ArrayList<>();
+		  for(Student s : this.students)
+			  if(s.getAvgMark() == maxavg)  temp.add(s);
+		  return  temp.toArray(new Student[temp.size()]);
 	}
 
-	@Override
+	
 	public Student getNextStudent(Student student) {
-		// Add your implementation here
-                return null;
+           this.bubbleSort();
+		   int i;
+		   for(i = 0; i < this.students.length; i++)
+			   if(this.students[i].equals(student)) break;
+		   return this.students[i+1];
+
 	}
+
+	
+	public void add(Student student, int index) {
+         Student[] temp = new Student[this.students.length+1];
+		 for(int i = 0; i < index; i++)
+			 temp[i] = this.students[i];
+		 temp[index] = student;
+		 for(int i = index; i < this.students.length; i++)
+			 temp[i+1] = this.students[i];
+		 this.students = temp;
+	}
+
+	private int getStudentIndex(Student student) {
+         for(int i = 0; i < this.students.length; i++)
+			 if(this.students[i].equals(student)) return i;
+		 return -1;
+    }
+
+	private int getDiffYears(Date first, Date last) {
+            return first.getYear() - last.getYear();
+	}
+
+	private Calendar getCalendar(Date date) {
+          Calendar aDay = Calendar.getInstance();
+          aDay.setTime(date);
+		  return aDay;
+	}
+
 }
