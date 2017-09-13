@@ -21,20 +21,24 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public void setStudents(Student[] students) {
+		if(students==null){throw new IllegalArgumentException("NULL");}
          this.students = students;
 	}
 
 	
 	public Student getStudent(int index) {
+		if(index<0 || index>=this.students.length){throw new IllegalArgumentException("Out of bound");}
           return students[index];
 	}
 
 	
 	public void setStudent(Student student, int index) {
+		if(student == null || (index<0 || index>= this.students.length)){throw new IllegalArgumentException("Exception raised");}
            this.getStudents()[index] = student;
 	}
 
 	public void addFirst(Student student) {
+		if(students==null){throw new IllegalArgumentException("NULL");}
          Student[] temp = new Student[this.students.length+1];
 		 temp[0] = student;
 		 for(int i = 1; i < temp.length; i++)
@@ -44,6 +48,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public void addLast(Student student) {
+		if(students==null){throw new IllegalArgumentException("NULL");}
          Student[] temp = new Student[this.getStudents().length+1];
 		 for(int i = 0; i < this.students.length; i++)
 			 temp[i] = this.students[i];
@@ -53,6 +58,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public void remove(int index) {
+		if(index<0 || index>=this.students.length){throw new IllegalArgumentException("Out of bound");}
          Student[] temp = new Student[this.students.length-1]; 
 		 int c = 0;
 		 for(int i = 0; i < this.students.length; i++)
@@ -62,6 +68,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public void remove(Student student) {
+		if(students==null){throw new IllegalArgumentException("NULL");}
          Student[] temp = new Student[this.students.length-1]; 
 		 int c = 0;
 		 for(int i = 0; i < this.students.length; i++)
@@ -71,6 +78,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public void removeFromIndex(int index) {
+		if(index<0 || index>=this.students.length){throw new IllegalArgumentException("Out of bound");}
          Student[] temp = new Student[index]; 
 		 int c = 0;
 		 for(int i = 0; i < index; i++)
@@ -80,6 +88,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public void removeFromElement(Student student) {
+		if(students==null){throw new IllegalArgumentException("NULL");}
            int ind = getStudentIndex(student);
 		   ArrayList<Student> temp = new ArrayList<>();
 		   for(int i = 0; i < ind; i++)
@@ -89,6 +98,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public void removeToIndex(int index) {
+		if(index<0 || index>=this.students.length){throw new IllegalArgumentException("Out of bound");}
          Student[] temp = new Student[this.students.length-index]; 
 		 int c = 0;
 		 for(int i = index; i < this.students.length; i++)
@@ -98,6 +108,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public void removeToElement(Student student) {
+		if(students==null){throw new IllegalArgumentException("NULL");}
            int ind = getStudentIndex(student);
 		   ArrayList<Student> temp = new ArrayList<>();
 		   for(int i = ind; i < this.students.length; i++)
@@ -124,6 +135,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 
 	public Student[] getByBirthDate(Date date) {
+		if(date==null){throw new IllegalArgumentException("NULL");}
            ArrayList<Student> temp = new ArrayList<>();
 		   for(Student s : this.students)
 		   {
@@ -135,6 +147,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public Student[] getBetweenBirthDates(Date firstDate, Date lastDate) {
+		if(firstDate==null || lastDate==null){throw new IllegalArgumentException("NULL");}
          ArrayList<Student> temp = new ArrayList<>();
 		   for(Student s : this.students)
 		   {
@@ -161,6 +174,7 @@ public class StudentGroup implements StudentArrayOperation {
 
 	
 	public int getCurrentAgeByDate(int indexOfStudent) {
+		if(indexOfStudent == 0){throw new IllegalArgumentException("NULL");}
 		   Date now = new Date();
            return this.students[indexOfStudent].getBirthDate().getYear() - now.getYear();
 	}
