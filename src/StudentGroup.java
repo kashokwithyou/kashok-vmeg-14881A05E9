@@ -226,16 +226,19 @@ public class StudentGroup implements StudentArrayOperation {
 	}
 
 	private int getStudentIndex(Student student) {
+		if(student==null){throw new IllegalArgumentException("NULL");}
          for(int i = 0; i < this.students.length; i++)
 			 if(this.students[i].equals(student)) return i;
 		 return -1;
     }
 
 	private int getDiffYears(Date first, Date last) {
+		if(first==null || last==null){throw new IllegalArgumentException("NULL");}
             return first.getYear() - last.getYear();
 	}
 
 	private Calendar getCalendar(Date date) {
+		if(date==null){throw new IllegalArgumentException("NULL");}
           Calendar aDay = Calendar.getInstance();
           aDay.setTime(date);
 		  return aDay;
